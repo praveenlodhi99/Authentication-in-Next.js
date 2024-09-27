@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 // import { axios } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -12,6 +12,21 @@ const SignupPage = () => {
     email: '',
     password: '',
   });
+
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+
+  const onSignup = async () => {
+
+  }
+
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+  
 
   return (
     <>
@@ -55,7 +70,11 @@ const SignupPage = () => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
 
-          <button className='bg-gray-700 py-1 px-3 text-sm rounded-md m-2'>Submit</button>
+          <button className='bg-gray-700 py-1 px-3 text-sm rounded-md m-2'>
+            {
+              buttonDisabled ? "No Signup" : "Signup"
+            }
+          </button>
           <Link href='/frontend/login'>
             <span className='font-extralight text-sm'>Already have an account? <b>Login Here</b> </span>
           </Link>

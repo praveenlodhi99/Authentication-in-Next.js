@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const connect = async (): Promise<void> => {
   try {
+
     // Connecting to MongoDB using the URI from environment variables
     await mongoose.connect(process.env.MONGO_URI!);
 
@@ -16,6 +17,11 @@ const connect = async (): Promise<void> => {
       console.error('MongoDB connection error: ', err);
       process.exit(1);
     });
+    
+    connection.on('disconnected', () => {
+      console.log('MongoDB disconnected');
+    });
+
   } catch (error) {
     console.error('Something went wrong while connecting to MongoDB!');
     console.error(error);

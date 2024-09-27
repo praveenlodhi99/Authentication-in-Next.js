@@ -24,20 +24,14 @@ const SignupPage = () => {
     try {
       setLoading(true);
       const response = await axios.post('/api/users/sign-up', user);
-
-      // If signup is successful, status code should be 201
-      if (response.status === 201) {
-        console.log("Sign-up successful", response.data);
-        toast.success("Sign-up successful!");
-        router.push('/frontend/login');  // Redirect to login page after success
-      } else {
-        alert('Failed to signup. Please try again.');
-      }
+      console.log("Sign-up successful", response.data);
+      toast.success("Sign-up successful!");
+      router.push('/frontend/login'); // Redirect to login page after success
     } catch (error: any) {
       console.log('Sign-up error: ', error.message);
-      toast.error(error.message);
+      toast.error(error.message || 'An error occurred during sign-up.');
     } finally {
-      setLoading(false);  // Ensure loading is set to false after try/catch
+      setLoading(false);
     }
   };
 
@@ -92,7 +86,7 @@ const SignupPage = () => {
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
-            
+
             {/* Toggle Show/Hide Password Button */}
             <button
               type="button"
